@@ -117,6 +117,9 @@ select.input option{background:var(--card)}
 #staffPortalCard:hover{border-color:rgba(79,142,247,.5)!important;box-shadow:0 20px 60px rgba(79,142,247,.15)!important}
 #monitorPortalCard:hover{border-color:rgba(239,68,68,.5)!important;box-shadow:0 20px 60px rgba(239,68,68,.15)!important}
 
+.safe-padding-top{padding-top:calc(12px + env(safe-area-inset-top))}
+.safe-margin-top{margin-top:calc(12px + env(safe-area-inset-top))}
+
 /* ===== PARTICLE CANVAS ===== */
 #particleCanvas{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.45}
 
@@ -208,7 +211,7 @@ select.input option{background:var(--card)}
 
 /* ===== MAIN CONTENT ===== */
 .main-content{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-height:0}
-.topbar{background:rgba(10,14,24,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;flex-shrink:0}
+.topbar{background:rgba(10,14,24,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 24px;padding-top:env(safe-area-inset-top);height:calc(64px + env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;flex-shrink:0}
 .topbar-title h2{font-size:1rem;font-weight:800;letter-spacing:-.02em}
 .topbar-title p{font-size:.72rem;color:var(--text2)}
 .topbar-right{display:flex;align-items:center;gap:10px}
@@ -219,7 +222,7 @@ select.input option{background:var(--card)}
 .page.active{display:block;overflow-y:auto}
 
 /* ===== DASHBOARD ===== */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:22px}
 .kpi-card{background:linear-gradient(135deg,var(--card) 0%,var(--card2) 100%);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s,box-shadow .2s}
 .kpi-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.5)}
 .kpi-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px}
@@ -387,7 +390,7 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
 .profile-tab:hover:not(.active){background:var(--border);color:var(--text)}
 
 @media(max-width:900px){
-  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .kpi-grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
   .dash-grid{grid-template-columns:1fr}
   .sidebar{width:64px}
   .sidebar .nav-label,.sidebar .nav-badge,.sidebar .user-info,.sidebar .sidebar-company,.sidebar .nav-section-label{opacity:0;width:0;overflow:hidden;padding:0}
@@ -441,7 +444,7 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
   .more-item-icon{font-size:1.4rem}
 
   /* Page padding */
-  .kpi-grid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .kpi-grid{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
   .emp-grid{grid-template-columns:1fr}
   .page{padding:12px 12px 0}
   .topbar{padding:0 14px;height:56px}
@@ -545,7 +548,7 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
 </script>
 
 <!-- ===== PORTAL SELECTION ===== -->
-<div id="portalSelect" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);position:relative;overflow:hidden;padding:20px">
+<div id="portalSelect" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);position:relative;overflow:hidden;padding:20px;padding-top:calc(40px + env(safe-area-inset-top))">
   <!-- grid bg -->
   <div class="grid-bg" style="opacity:.6"></div>
   <!-- animated background blobs -->
@@ -596,18 +599,18 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
         <div style="font-size:.73rem;color:var(--text2);line-height:1.7;margin-bottom:16px">Full system access · Monitor all users · Approve requests · Configure everything</div>
         <div style="display:inline-flex;align-items:center;gap:6px;font-size:.73rem;font-weight:700;color:var(--accent4);background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);border-radius:20px;padding:5px 14px">Enter as Sam <span>→</span></div>
       </div>
-      <!-- STAFF PORTAL -->
+      <!-- COMPANY PORTAL -->
       <div onclick="showLoginPortal('staff')" style="background:linear-gradient(135deg,rgba(79,142,247,.1),rgba(16,185,129,.04));border:1px solid rgba(79,142,247,.2);border-radius:18px;padding:26px 22px;cursor:pointer;position:relative;overflow:hidden" class="portal-card portal-card-anim" id="staffPortalCard">
         <div class="portal-scanline" style="animation-delay:1.3s"></div>
         <div style="position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2))"></div>
         <div style="position:absolute;bottom:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(79,142,247,.1),transparent);border-radius:50%;pointer-events:none"></div>
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
-          <div style="width:48px;height:48px;border-radius:13px;background:rgba(79,142,247,.15);border:1px solid rgba(79,142,247,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 16px rgba(79,142,247,.2)">👤</div>
-          <span class="hex-badge hex-badge-staff">STAFF</span>
+          <div style="width:48px;height:48px;border-radius:13px;background:rgba(79,142,247,.15);border:1px solid rgba(79,142,247,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 16px rgba(79,142,247,.2)">🏢</div>
+          <span class="hex-badge hex-badge-staff">COMPANY</span>
         </div>
-        <div style="font-size:1rem;font-weight:800;margin-bottom:6px;letter-spacing:-.02em">Staff Portal</div>
-        <div style="font-size:.73rem;color:var(--text2);line-height:1.7;margin-bottom:16px">Employee &amp; Manager access · Attendance · Leave requests · Payroll view</div>
-        <div style="display:inline-flex;align-items:center;gap:6px;font-size:.73rem;font-weight:700;color:var(--accent);background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.2);border-radius:20px;padding:5px 14px">Enter as Staff <span>→</span></div>
+        <div style="font-size:1rem;font-weight:800;margin-bottom:6px;letter-spacing:-.02em">Company Portal</div>
+        <div style="font-size:.73rem;color:var(--text2);line-height:1.7;margin-bottom:16px">Organization access · Attendance · Employee Management · Payroll & Leave</div>
+        <div style="display:inline-flex;align-items:center;gap:6px;font-size:.73rem;font-weight:700;color:var(--accent);background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.2);border-radius:20px;padding:5px 14px">Enter Company Portal <span>→</span></div>
       </div>
       <!-- MONITOR PORTAL — separate login, not on this site -->
       <div onclick="openMonitorPortalWindow()" style="background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(245,158,11,.04));border:1px solid rgba(239,68,68,.2);border-radius:18px;padding:26px 22px;cursor:pointer;position:relative;overflow:hidden" class="portal-card portal-card-anim" id="monitorPortalCard">
@@ -626,7 +629,7 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
 
     <!-- stat strip -->
     <div class="portal-stat-row" style="animation:fadeUp .5s ease .4s both">
-      <div class="portal-stat"><div class="portal-stat-val" id="pStatStaff">–</div><div class="portal-stat-lbl">Staff</div></div>
+      <div class="portal-stat"><div class="portal-stat-val" id="pStatStaff">–</div><div class="portal-stat-lbl">Employees</div></div>
       <div class="portal-stat"><div class="portal-stat-val" style="color:var(--accent2)" id="pStatOnline">–</div><div class="portal-stat-lbl">Online</div></div>
       <div class="portal-stat"><div class="portal-stat-val" style="color:var(--accent3)" id="pStatPending">–</div><div class="portal-stat-lbl">Pending</div></div>
       <div class="portal-stat"><div class="portal-stat-val" style="color:var(--accent4)">v4</div><div class="portal-stat-lbl">Version</div></div>
@@ -729,7 +732,7 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
   </div>
 </div>
 
-<!-- ===== STAFF LOGIN ===== -->
+<!-- ===== COMPANY LOGIN ===== -->
 <div id="staffLoginPage" class="hidden" style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);position:relative;overflow:hidden">
   <div class="grid-bg" style="opacity:.45"></div>
   <div style="position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(79,142,247,.08) 0%,transparent 65%);top:-150px;left:-150px;pointer-events:none;animation:blobFloat 10s ease-in-out infinite"></div>
@@ -743,8 +746,8 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
     <div class="login-logo">
       <div class="login-logo-img" id="staffLogoDisplay" style="background:rgba(79,142,247,.12);border-color:rgba(79,142,247,.35);box-shadow:0 0 30px rgba(79,142,247,.12)">🏢</div>
       <div>
-        <h1 id="staffPortalTitle" style="font-size:1.3rem">Staff <span>Portal</span></h1>
-        <div style="font-size:.68rem;color:var(--text2);letter-spacing:.06em;text-transform:uppercase" id="staffPortalSub">Employee &amp; Manager Login</div>
+        <h1 id="staffPortalTitle" style="font-size:1.3rem">Company <span>Portal</span></h1>
+        <div style="font-size:.68rem;color:var(--text2);letter-spacing:.06em;text-transform:uppercase" id="staffPortalSub">Organization Login</div>
         <div class="security-indicator" style="margin-top:5px"><span class="security-dot"></span><span>SECURE SESSION</span></div>
       </div>
     </div>
@@ -803,7 +806,7 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
         <label>Role</label>
         <select class="input" id="regRole">
           <option value="employee">Employee</option>
-          <option value="manager">Manager / HR</option>
+          <option value="manager">Company Admin</option>
         </select>
       </div>
       <button class="btn btn-primary w-full" style="justify-content:center;margin-top:4px" onclick="doRegister()">Create Account</button>
@@ -848,7 +851,7 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
 </div>
 
 <!-- ===== APP ===== -->
-<div id="app" class="hidden">
+<div id="app">
   <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
@@ -877,6 +880,9 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
       <div class="nav-item" onclick="showPage('leave',this)" data-page="leave">
         <span class="nav-icon">🏖</span><span class="nav-label">Leave</span>
         <span class="nav-badge" id="leaveBadge">0</span>
+      </div>
+      <div class="nav-item" id="navItemSupport" onclick="showPage('support',this)" data-page="support">
+        <span class="nav-icon">💬</span><span class="nav-label">Support & Feedback</span>
       </div>
       <div class="nav-section-label" id="ownerSection">Owner</div>
       <div class="nav-item hidden" id="monitorNav" onclick="showPage('monitor',this)" data-page="monitor">
@@ -933,7 +939,7 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
       </div>
 
       <div class="kpi-grid">
-        <div class="kpi-card blue"><div class="kpi-icon">👥</div><div class="kpi-label">Total Staff</div><div class="kpi-value" id="kpiStaff">0</div><div class="kpi-bar"><div class="kpi-bar-fill" id="kpiStaffBar" style="width:100%"></div></div></div>
+        <div class="kpi-card blue"><div class="kpi-icon">👥</div><div class="kpi-label">Total Employees</div><div class="kpi-value" id="kpiStaff">0</div><div class="kpi-bar"><div class="kpi-bar-fill" id="kpiStaffBar" style="width:100%"></div></div></div>
         <div class="kpi-card green"><div class="kpi-icon">✅</div><div class="kpi-label">Present Today</div><div class="kpi-value" id="kpiPresent">0</div><div class="kpi-bar"><div class="kpi-bar-fill" id="kpiPresentBar" style="width:0%"></div></div></div>
         <div class="kpi-card yellow"><div class="kpi-icon">⏱</div><div class="kpi-label">Late / On Leave</div><div class="kpi-value" id="kpiLate">0</div><div class="kpi-bar"><div class="kpi-bar-fill" id="kpiLateBar" style="width:0%"></div></div></div>
         <div class="kpi-card purple"><div class="kpi-icon">📩</div><div class="kpi-label">Pending Leaves</div><div class="kpi-value" id="kpiLeave">0</div><div class="kpi-bar"><div class="kpi-bar-fill" id="kpiLeaveBar" style="width:0%"></div></div></div>
@@ -988,7 +994,9 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
         <button class="filter-chip flv" id="fcLv" onclick="setAttFilter('leave')">Leave</button>
         <button class="btn btn-ghost btn-sm" onclick="markAllAtt('present')">✓ All P</button>
         <button class="btn btn-ghost btn-sm" onclick="markAllAtt('')">↺ Clear</button>
-        <button class="btn btn-ghost btn-sm" onclick="exportAttCSV()">⬇ CSV</button>
+        <button class="btn btn-ghost btn-sm" onclick="exportAttCSV()">⬇ Day CSV</button>
+        <button class="btn btn-ghost btn-sm" onclick="exportMonthlyAttCSV()">⬇ Month CSV</button>
+        <button class="btn" style="background:rgba(16,185,129,.1);color:var(--present);border:1px solid rgba(16,185,129,.25)" onclick="syncBiometric()">🧬 Sync Biometric</button>
       </div>
       <div class="table-wrap">
         <div class="table-top">
@@ -997,7 +1005,7 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
         </div>
         <div style="overflow-x:auto">
           <table><thead><tr>
-            <th>Staff Member</th><th>Department</th><th>Check In</th><th>Check Out</th><th>Status</th><th>Note</th>
+            <th>Employee</th><th>Department</th><th>Check In</th><th>Check Out</th><th>Status</th><th>Note</th>
           </tr></thead><tbody id="attTable"></tbody></table>
         </div>
         <div class="hidden" id="attEmpty" style="padding:40px;text-align:center;color:var(--text2);font-size:.85rem">No results.</div>
@@ -1179,6 +1187,24 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
         <div id="monitorRequestsPanel" style="padding:4px 0"></div>
       </div>
 
+      <!-- App Feedback Reports (Sam Only) -->
+      <div class="dash-card" style="margin-bottom:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div class="dash-card-title" style="margin-bottom:0">💬 App Feedback & reports</div>
+          <button class="btn btn-ghost btn-sm" onclick="renderAppReports()">↻ Refresh</button>
+        </div>
+        <div id="samReportList" style="padding:4px 0"></div>
+      </div>
+
+      <!-- Biometric Sync Status (Sam Only) -->
+      <div class="dash-card" style="margin-bottom:16px;border-color:rgba(16,185,129,.2)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div class="dash-card-title" style="margin-bottom:0">🧬 Biometric Sync Logs</div>
+          <button class="btn btn-ghost btn-sm" onclick="renderBiometricLogs()">↻ Refresh</button>
+        </div>
+        <div id="biometricLogList" style="padding:4px 0"></div>
+      </div>
+
       <!-- All Users Table -->
       <div class="table-wrap">
         <div class="table-top">
@@ -1233,7 +1259,8 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
             <input class="input" type="email" id="profileEmailInput" placeholder="owner@company.com">
           </div>
           <div class="input-group"><label>Phone</label><input class="input" type="tel" id="profilePhone" placeholder="+1 000 000 0000"></div>
-          <div class="input-group"><label>Address</label><input class="input" type="text" id="profileAddress" placeholder="Your address"></div>
+          <div class="input-group"><label>Address</label><label
+                  for="profileAddress"></label><input class="input" type="text" id="profileAddress" placeholder="Your address"></div>
           <button class="btn btn-primary" onclick="saveProfile()">💾 Save Profile</button>
         </div>
 
@@ -1351,6 +1378,36 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
         </div>
       </div>
     </div>
+
+    <!-- SUPPORT (Company Portal) -->
+    <div class="page" id="page-support">
+      <div style="max-width:600px">
+        <div class="settings-section">
+          <h3>💬 App Feedback & Bug Report</h3>
+          <p style="font-size:.82rem;color:var(--text2);margin-bottom:18px;line-height:1.6">
+            Help Sam improve this software. If you encounter any issues or have suggestions for new features, please submit a report below.
+          </p>
+          <div class="input-group">
+            <label>Report Type</label>
+            <select class="input" id="reportType">
+              <option value="bug">🐛 Bug / Error</option>
+              <option value="feature">💡 Feature Request</option>
+              <option value="improvement">🚀 Improvement</option>
+              <option value="other">💬 General Feedback</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Subject</label>
+            <input class="input" type="text" id="reportSubject" placeholder="Brief summary of the issue">
+          </div>
+          <div class="input-group">
+            <label>Detailed Description</label>
+            <textarea class="input" id="reportDesc" rows="6" placeholder="Describe what happened or what you'd like to see..."></textarea>
+          </div>
+          <button class="btn btn-primary" onclick="submitAppReport()">📤 Submit Report to Sam</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1417,7 +1474,7 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
       <div class="input-group"><label>From</label><input class="input" type="date" id="leaveFrom"></div>
       <div class="input-group"><label>To</label><input class="input" type="date" id="leaveTo"></div>
     </div>
-    <div class="input-group"><label>Reason</label><textarea class="input" id="leaveReason" rows="3" placeholder="Reason for leave…" style="resize:vertical"></textarea></div>
+    <div class="input-group"><label>Reason</label><label for="leaveReason"></label><textarea class="input" id="leaveReason" rows="3" placeholder="Reason for leave…" style="resize:vertical"></textarea></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('leaveModal')">Cancel</button>
       <button class="btn btn-primary" onclick="submitLeave()">Submit Request</button>
@@ -1492,6 +1549,7 @@ tbody td{padding:11px 16px;font-size:.8rem;vertical-align:middle}
     <div class="more-item" onclick="mobNavMore('payroll')"><span class="more-item-icon">💰</span>Payroll</div>
     <div class="more-item" onclick="mobNavMore('settings')"><span class="more-item-icon">⚙️</span>Settings</div>
     <div class="more-item" onclick="mobNavMore('profile')"><span class="more-item-icon">👤</span>Profile</div>
+    <div class="more-item" onclick="mobNavMore('support')"><span class="more-item-icon">💬</span>Support</div>
     <div class="more-item" id="mobMonitorItem" onclick="mobNavMore('monitor')" style="display:none"><span class="more-item-icon">🔭</span>Monitor</div>
     <div class="more-item" onclick="doLogout()"><span class="more-item-icon">🚪</span>Sign Out</div>
   </div>
@@ -1719,29 +1777,28 @@ function initDefaultData() {
     DB.set('users',[{
       id:'u0', name:'Admin Owner', email:'admin@company.com',
       password:'Admin@123', role:'owner', secretKey:'HRMS@SecureKey#2025',
-      secQ:'pet', secA:'fluffy',
+      secQ:'pet', secA:'fluffy', status: 'approved',
       phone:'', address:'', createdAt: new Date().toISOString()
     }]);
   } else {
-    // Only patch secretKey if genuinely missing — NEVER touch saved passwords
-    const needsPatch = users.some(u => u.role==='owner' && !u.secretKey);
-    if (needsPatch) {
-      const updated = users.map(u => (u.role==='owner' && !u.secretKey) ? {...u, secretKey:'HRMS@SecureKey#2025'} : u);
-      DB.set('users', updated);
-    }
-    // If nothing needs patching, do NOT write to DB — prevents any password overwrite
+    // Ensure existing owner and users have a status
+    let changed = false;
+    const updated = users.map(u => {
+      if(!u.status) {
+        u.status = u.role === 'owner' ? 'approved' : 'pending';
+        changed = true;
+      }
+      if (u.role==='owner' && !u.secretKey) {
+        u.secretKey = 'HRMS@SecureKey#2025';
+        changed = true;
+      }
+      return u;
+    });
+    if(changed) DB.set('users', updated);
   }
   const staff = DB.get('staff',[]);
   if (!staff.length) {
-    const defaults=[
-      {name:'Alice Johnson',role:'Senior Developer',dept:'Engineering',email:'alice@co.com',salary:85000,type:'Full-time',join:'2021-03-15',phone:'+1 555 0101',natId:'ID001',bank:'ACC001',address:'123 Main St',emerg:'Bob – 555 0102'},
-      {name:'Bob Chen',role:'UI Designer',dept:'Design',email:'bob@co.com',salary:72000,type:'Full-time',join:'2022-01-10',phone:'+1 555 0103',natId:'ID002',bank:'ACC002',address:'456 Oak Ave',emerg:'Alice – 555 0104'},
-      {name:'Carol White',role:'Project Manager',dept:'Operations',email:'carol@co.com',salary:95000,type:'Full-time',join:'2020-07-01',phone:'+1 555 0105',natId:'ID003',bank:'ACC003',address:'789 Pine Rd',emerg:'Dave – 555 0106'},
-      {name:'David Kim',role:'Data Analyst',dept:'Analytics',email:'david@co.com',salary:78000,type:'Full-time',join:'2022-06-20',phone:'+1 555 0107',natId:'ID004',bank:'ACC004',address:'321 Elm St',emerg:'Carol – 555 0108'},
-      {name:'Eva Martinez',role:'HR Specialist',dept:'Human Resources',email:'eva@co.com',salary:68000,type:'Full-time',join:'2021-11-05',phone:'+1 555 0109',natId:'ID005',bank:'ACC005',address:'654 Birch Ln',emerg:'Frank – 555 0110'},
-      {name:'Frank Lee',role:'Backend Developer',dept:'Engineering',email:'frank@co.com',salary:88000,type:'Full-time',join:'2023-02-14',phone:'+1 555 0111',natId:'ID006',bank:'ACC006',address:'987 Cedar Dr',emerg:'Grace – 555 0112'},
-    ];
-    DB.set('staff', defaults.map((s,i)=>({...s,id:'s'+(i+1)})));
+    DB.set('staff', []);
   }
   if(!DB.get('settings',null)) DB.set('settings',{companyName:'My Company',industry:'',currency:'USD',workDays:26,logo:'',annual:20,sick:10,casual:8,maternity:90});
 }
@@ -1769,10 +1826,21 @@ function doLogin() {
   const email=document.getElementById('loginEmail').value.trim();
   const pwd=document.getElementById('loginPassword').value;
   const users=DB.get('users',[]);
-  // Staff portal — block owners from using staff portal
+  // Company portal — block owners from using staff portal
   const user=users.find(u=>u.email.toLowerCase()===email.toLowerCase()&&u.password===pwd);
   if(!user){showToast('Invalid email or password','error');return;}
   if(user.role==='owner'){showToast('Owner accounts must use the Owner Portal','error');return;}
+
+  // Authorization Check
+  if(user.status === 'pending') {
+    showToast('Your account is awaiting authorization from Sam.', 'warning');
+    return;
+  }
+  if(user.status === 'rejected') {
+    showToast('Your account access has been rejected.', 'error');
+    return;
+  }
+
   currentUser={...user}; // spread copy
   logLogin(user,'login');
   DB.set('session',{userId:user.id,loginAt:new Date().toISOString(),portal:'staff'});
@@ -1798,11 +1866,12 @@ function doLogout() {
 
 function logLogin(user, type) {
   const logs=DB.get('loginLogs',[]);
-  logs.unshift({userId:user.id,name:user.name,email:user.email,role:user.role,type,time:new Date().toISOString(),online:type==='login'});
+  const company = DB.get('settings', {}).companyName || 'Unknown';
+  logs.unshift({userId:user.id,name:user.name,email:user.email,role:user.role,company,type,time:new Date().toISOString(),online:type==='login'});
   DB.set('loginLogs',logs.slice(0,200));
   if(type==='login'){
     const sessions=DB.get('sessions',{});
-    sessions[user.id]={name:user.name,email:user.email,role:user.role,loginAt:new Date().toISOString(),online:true};
+    sessions[user.id]={name:user.name,email:user.email,role:user.role,company,loginAt:new Date().toISOString(),online:true};
     DB.set('sessions',sessions);
   } else {
     const sessions=DB.get('sessions',{});
@@ -1822,9 +1891,9 @@ function doRegister() {
   if(pwd.length<8){showToast('Password must be at least 8 characters','error');return;}
   const users=DB.get('users',[]);
   if(users.find(u=>u.email.toLowerCase()===email.toLowerCase())){showToast('Email already registered','error');return;}
-  users.push({id:genId(),name,email,password:pwd,role,secQ,secA,phone:'',address:'',createdAt:new Date().toISOString()});
+  users.push({id:genId(),name,email,password:pwd,role,secQ,secA,status:'pending',phone:'',address:'',createdAt:new Date().toISOString()});
   DB.set('users',users);
-  showToast('Account created! You can now sign in.','success');
+  showToast('Registration submitted! Awaiting Sam\'s authorization.','info');
   switchLoginTab('login',document.querySelector('.login-tab'));
   document.getElementById('loginEmail').value=email;
 }
@@ -1951,35 +2020,125 @@ function initApp() {
   document.getElementById('sidebarUserAvatar').textContent=initials(currentUser.name);
   document.getElementById('sidebarUserName').textContent=currentUser.name.split(' ')[0];
   document.getElementById('sidebarUserRole').textContent=currentUser.role.charAt(0).toUpperCase()+currentUser.role.slice(1);
-  // Mobile nav — show monitor option if owner
-  if(currentUser.role==='owner'){
+
+    // Role-based UI visibility
+  const isOwner = currentUser.role === 'owner';
+  const navItems = document.querySelectorAll('.nav-item');
+  const sections = document.querySelectorAll('.nav-section-label');
+
+  if(isOwner){
+    // SAM Portal: ONLY see Monitor and Profile.
+    // Strictly remove access to HR and Dashboard features.
+    navItems.forEach(item => {
+      const page = item.getAttribute('data-page');
+      if (['dashboard', 'attendance', 'employees', 'payroll', 'leave', 'settings'].includes(page)) {
+        item.classList.add('hidden');
+      } else if (page === 'monitor' || page === 'profile') {
+        item.classList.remove('hidden');
+      }
+    });
+    sections.forEach(sec => {
+      if (['Overview', 'HR Management', 'System'].includes(sec.textContent)) {
+        sec.classList.add('hidden');
+      } else if (sec.id === 'ownerSection' || sec.textContent === 'Owner') {
+        sec.classList.remove('hidden');
+      }
+    });
+
     document.getElementById('monitorNav').classList.remove('hidden');
     document.getElementById('ownerSection').classList.remove('hidden');
+    document.getElementById('navItemSupport').classList.add('hidden');
+
+    // SAM strictly only needs monitoring.
+    showPage('monitor', document.querySelector('[data-page=monitor]'));
+
+    // Update mobile bottom nav for SAM
+    const mnDash = document.getElementById('mnDash');
+    if(mnDash) {
+      mnDash.innerHTML = '<span class="mob-icon">🔭</span><span>Monitor</span>';
+      mnDash.setAttribute('onclick', "mobNav('monitor',this)");
+    }
+    document.getElementById('mnAtt').classList.add('hidden');
+    document.getElementById('mnEmp').classList.add('hidden');
+    document.getElementById('mnLeave').classList.add('hidden');
+
+    // SAM More menu - hide everything but profile
+    document.querySelectorAll('#mobileMoreDrawer .more-item').forEach(item => {
+      const text = item.textContent.toLowerCase();
+      if(text.includes('payroll') || text.includes('settings')) {
+        item.style.display = 'none';
+      }
+    });
     const mobMonitor = document.getElementById('mobMonitorItem');
     if(mobMonitor) mobMonitor.style.display='flex';
+
     updateResetNavBadge();
   } else {
+    // Company Portal: See everything except Monitor
+    navItems.forEach(item => {
+      const page = item.getAttribute('data-page');
+      if (page === 'monitor') {
+        item.classList.add('hidden');
+      } else {
+        item.classList.remove('hidden');
+      }
+    });
+    sections.forEach(sec => {
+      if (['Overview', 'HR Management', 'System'].includes(sec.textContent)) {
+        sec.classList.remove('hidden');
+      }
+      if (sec.id === 'ownerSection' || sec.textContent === 'Owner') {
+        sec.classList.add('hidden');
+      }
+    });
+
     document.getElementById('monitorNav').classList.add('hidden');
     document.getElementById('ownerSection').classList.add('hidden');
+    document.getElementById('navItemSupport').classList.remove('hidden');
+
+    // Reset mobile bottom nav for Company Portal
+    const mnDash = document.getElementById('mnDash');
+    if(mnDash) {
+      mnDash.innerHTML = '<span class="mob-icon">📊</span><span>Dashboard</span>';
+      mnDash.setAttribute('onclick', "mobNav('dashboard',this)");
+    }
+    document.getElementById('mnAtt').classList.remove('hidden');
+    document.getElementById('mnEmp').classList.remove('hidden');
+    document.getElementById('mnLeave').classList.remove('hidden');
+
+    // Company More menu - show everything
+    document.querySelectorAll('#mobileMoreDrawer .more-item').forEach(item => {
+      if(!item.id.includes('Monitor')) item.style.display = 'flex';
+    });
+    const mobMonitor = document.getElementById('mobMonitorItem');
+    if(mobMonitor) mobMonitor.style.display='none';
+
+    showPage('dashboard', document.querySelector('[data-page=dashboard]'));
   }
+
   // Date
   document.getElementById('topbarDate').textContent=new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
   // Init pages
   document.getElementById('attDate').value=todayStr();
   initPayMonths();
   // Update login logo/company on login page
-  document.getElementById('loginCompanyName').innerHTML=(settings.companyName||'HRMS')+'<span> Portal</span>';
+  const portalCompName = document.getElementById('portalCompanyName');
+  if(portalCompName) portalCompName.innerHTML=(settings.companyName||'HRMS')+' <span style="color:var(--accent)">Portal</span>';
+
   renderDashboard();
-  renderAttendance();
-  renderEmployees();
-  renderPayroll();
-  renderLeave();
-  if(currentUser.role==='owner') renderMonitor();
+  if(!isOwner) {
+    renderAttendance();
+    renderEmployees();
+    renderPayroll();
+    renderLeave();
+  } else {
+    renderMonitor();
+  }
   initProfile();
   initSettings();
   updateLeaveBadge();
   // Prompt owner to set personal secret key if using default
-  if(currentUser.role==='owner') setTimeout(checkFirstLoginNeeded, 800);
+  if(isOwner) setTimeout(checkFirstLoginNeeded, 800);
 }
 
 function setSidebarLogo(src) {
@@ -2013,46 +2172,51 @@ function showPage(name, el) {
 // DASHBOARD
 // =========================================================
 function renderDashboard() {
-  // Owner welcome banner
-  if(currentUser?.role==='owner') {
-    const banner=document.getElementById('ownerWelcomeBanner');
-    if(banner) banner.classList.remove('hidden');
-    const nm=document.getElementById('dashWelcomeName');
-    if(nm) nm.textContent='Welcome back, '+currentUser.name.split(' ')[0]+'!';
-    const sub=document.getElementById('dashWelcomeSub');
-    const online=Object.values(DB.get('sessions',{})).filter(s=>s.online).length;
-    if(sub) sub.textContent=online+' user'+(online!==1?'s':'')+' online now';
-  }
+  if(currentUser?.role==='owner') return;
+
   const staff=DB.get('staff',[]);
   const att=DB.get('attendance',{});
   const rec=att[todayStr()]||{};
   let p=0,a=0,l=0,lv=0;
   staff.forEach(s=>{const st=(rec[s.id]||{}).status;if(st==='present')p++;else if(st==='absent')a++;else if(st==='late')l++;else if(st==='leave')lv++;});
   const total=staff.length||1;
-  document.getElementById('kpiStaff').textContent=staff.length;
-  document.getElementById('kpiPresent').textContent=p;
-  document.getElementById('kpiLate').textContent=l+lv;
+  const kpiStaff = document.getElementById('kpiStaff');
+  const kpiPresent = document.getElementById('kpiPresent');
+  const kpiLate = document.getElementById('kpiLate');
+  const kpiLeave = document.getElementById('kpiLeave');
+  if(kpiStaff) kpiStaff.textContent=staff.length;
+  if(kpiPresent) kpiPresent.textContent=p;
+  if(kpiLate) kpiLate.textContent=l+lv;
   const leaves=DB.get('leaves',[]).filter(lv=>lv.status==='pending');
-  document.getElementById('kpiLeave').textContent=leaves.length;
-  document.getElementById('kpiPresentBar').style.width=Math.round(p/total*100)+'%';
-  document.getElementById('kpiLateBar').style.width=Math.round((l+lv)/total*100)+'%';
-  document.getElementById('kpiLeaveBar').style.width=Math.min(leaves.length*10,100)+'%';
+  if(kpiLeave) kpiLeave.textContent=leaves.length;
+
+  const pbP = document.getElementById('kpiPresentBar');
+  const pbL = document.getElementById('kpiLateBar');
+  const pbLv = document.getElementById('kpiLeaveBar');
+  if(pbP) pbP.style.width=Math.round(p/total*100)+'%';
+  if(pbL) pbL.style.width=Math.round((l+lv)/total*100)+'%';
+  if(pbLv) pbLv.style.width=Math.min(leaves.length*10,100)+'%';
+
   // Activity
   const actEl=document.getElementById('dashActivity');
-  const items=staff.map(s=>{
-    const r=rec[s.id]||{};
-    const st=r.status||'unmarked';
-    const colors={present:'var(--present)',absent:'var(--absent)',late:'var(--late)',leave:'var(--leave)',unmarked:'var(--muted)'};
-    return `<div class="activity-item"><div class="activity-dot" style="background:${colors[st]}"></div><div style="flex:1"><span style="font-size:.8rem;font-weight:600">${s.name.split(' ')[0]}</span> <span style="font-size:.72rem;color:var(--text2)">${s.role}</span></div><span class="badge badge-${st==='unmarked'?'pending':st}">${st}</span></div>`;
-  }).join('');
-  actEl.innerHTML=items||'<div style="color:var(--text2);font-size:.8rem;padding:12px 0">No attendance data yet.</div>';
+  if(actEl) {
+    const items=staff.map(s=>{
+      const r=rec[s.id]||{};
+      const st=r.status||'unmarked';
+      const colors={present:'var(--present)',absent:'var(--absent)',late:'var(--late)',leave:'var(--leave)',unmarked:'var(--muted)'};
+      return `<div class="activity-item"><div class="activity-dot" style="background:${colors[st]}"></div><div style="flex:1"><span style="font-size:.8rem;font-weight:600">${s.name.split(' ')[0]}</span> <span style="font-size:.72rem;color:var(--text2)">${s.role}</span></div><span class="badge badge-${st==='unmarked'?'pending':st}">${st}</span></div>`;
+    }).join('');
+    actEl.innerHTML=items||'<div style="color:var(--text2);font-size:.8rem;padding:12px 0">No attendance data yet.</div>';
+  }
   // Leave
   const leaveEl=document.getElementById('dashLeave');
-  const lvReqs=DB.get('leaves',[]).slice(0,5);
-  leaveEl.innerHTML=lvReqs.length?lvReqs.map(lv=>{
-    const s=staff.find(x=>x.id===lv.staffId);
-    return `<div class="activity-item"><div class="activity-dot" style="background:var(--accent4)"></div><div style="flex:1"><div style="font-size:.8rem;font-weight:600">${s?s.name:'Unknown'}</div><div style="font-size:.68rem;color:var(--text2)">${lv.type} · ${formatDate(lv.from)} – ${formatDate(lv.to)}</div></div><span class="badge badge-${lv.status}">${lv.status}</span></div>`;
-  }).join(''):'<div style="color:var(--text2);font-size:.8rem;padding:12px 0">No leave requests.</div>';
+  if(leaveEl) {
+    const lvReqs=DB.get('leaves',[]).slice(0,5);
+    leaveEl.innerHTML=lvReqs.length?lvReqs.map(lv=>{
+      const s=staff.find(x=>x.id===lv.staffId);
+      return `<div class="activity-item"><div class="activity-dot" style="background:var(--accent4)"></div><div style="flex:1"><div style="font-size:.8rem;font-weight:600">${s?s.name:'Unknown'}</div><div style="font-size:.68rem;color:var(--text2)">${lv.type} · ${formatDate(lv.from)} – ${formatDate(lv.to)}</div></div><span class="badge badge-${lv.status}">${lv.status}</span></div>`;
+    }).join(''):'<div style="color:var(--text2);font-size:.8rem;padding:12px 0">No leave requests.</div>';
+  }
 }
 
 // =========================================================
@@ -2199,11 +2363,70 @@ function exportAttCSV() {
     rows.push([s.name,s.role,s.dept||'',r.status||'–',r.checkIn||'–',r.checkOut||'–',r.note||'',date]);
   });
   const csv=rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download=`attendance_${date}.csv`;
-  a.click();
-  showToast('CSV exported','info');
+
+  if (window.Android && window.Android.exportCSV) {
+    window.Android.exportCSV(`attendance_${date}.csv`, csv);
+  } else {
+    const blob = new Blob([csv], {type:'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=`attendance_${date}.csv`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 100);
+  }
+  showToast('Daily attendance export triggered','info');
+}
+
+function exportMonthlyAttCSV() {
+  const date=document.getElementById('attDate').value||todayStr();
+  const month = date.slice(0, 7); // YYYY-MM
+  const staff=DB.get('staff',[]);
+  const att=DB.get('attendance',{});
+
+  // Get all days in month
+  const year = parseInt(month.split('-')[0]);
+  const monthIdx = parseInt(month.split('-')[1]) - 1;
+  const daysInMonth = new Date(year, monthIdx + 1, 0).getDate();
+
+  const header = ['Employee Name', 'Department'];
+  for(let d=1; d<=daysInMonth; d++) header.push(d.toString());
+  header.push('Total Present', 'Total Absent', 'Total Late', 'Total Leave');
+
+  const rows = [header];
+
+  staff.forEach(s => {
+    const row = [s.name, s.dept || ''];
+    let p=0, a=0, l=0, lv=0;
+    for(let d=1; d<=daysInMonth; d++) {
+      const dayStr = `${month}-${d.toString().padStart(2, '0')}`;
+      const rec = (att[dayStr] || {})[s.id] || {};
+      const st = rec.status || '-';
+      row.push(st);
+      if(st==='present') p++;
+      else if(st==='absent') a++;
+      else if(st==='late') l++;
+      else if(st==='leave') lv++;
+    }
+    row.push(p, a, l, lv);
+    rows.push(row);
+  });
+
+  const csv = rows.map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+  const filename = `attendance_monthly_${month}.csv`;
+
+  if (window.Android && window.Android.exportCSV) {
+    window.Android.exportCSV(filename, csv);
+  } else {
+    const blob = new Blob([csv], {type:'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=filename;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 100);
+  }
+  showToast('Monthly attendance export triggered','info');
 }
 
 // Event listeners for attendance
@@ -2497,21 +2720,48 @@ function savePayrollDetail() {
 
 function exportPayCSV() {
   const staff=DB.get('staff',[]);
-  const payroll=DB.get('payroll',{});
-  const rows=[['Name','Department','Base Salary','Provident Fund %','PF Amount','Bonus','Extra Deductions','Net Pay']];
+  const month=document.getElementById('payMonthFilter').value||new Date().toISOString().slice(0,7);
+  const settings=DB.get('settings',{workDays:26});
+  const payrollData=DB.get('payroll',{});
+  const att=DB.get('attendance',{});
+
+  const rows=[['Name','Department','Base Salary','Working Days','Present Days','Absence Deduction','PF %','PF Amount','Bonus','Extra Deductions','Net Pay','Month']];
+
   staff.forEach(s=>{
-    const ex=payroll[s.id]||{bonus:0,deduction:0,pfRate:5};
+    // Calculate present days for selected month
+    let pd=0;
+    Object.entries(att).forEach(([date,rec])=>{
+      if(date.startsWith(month)){const st=(rec[s.id]||{}).status;if(st==='present'||st==='late')pd++;}
+    });
+
+    const wd=settings.workDays||26;
+    const ex=payrollData[s.id]||{bonus:0,deduction:0,pfRate:5};
     const pfRate=(ex.pfRate!=null?ex.pfRate:5)/100;
     const pfAmount=Math.round((s.salary||0)*pfRate);
-    const net=(s.salary||0)+(ex.bonus||0)-(ex.deduction||0)-pfAmount;
-    rows.push([s.name,s.dept||'',s.salary||0,ex.pfRate||5,pfAmount,ex.bonus||0,ex.deduction||0,Math.round(net)]);
+    const deducted=s.salary?(s.salary/wd)*Math.max(0,wd-pd):0;
+    const net=(s.salary||0)-deducted+(ex.bonus||0)-(ex.deduction||0)-pfAmount;
+
+    rows.push([
+      s.name, s.dept||'', s.salary||0, wd, pd, Math.round(deducted),
+      ex.pfRate||5, pfAmount, ex.bonus||0, ex.deduction||0, Math.round(net), month
+    ]);
   });
+
   const csv=rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download=`payroll_${new Date().toISOString().slice(0,7)}.csv`;
-  a.click();
-  showToast('Payroll exported','info');
+  const filename = `payroll_${month}.csv`;
+
+  if (window.Android && window.Android.exportCSV) {
+    window.Android.exportCSV(filename, csv);
+  } else {
+    const blob = new Blob([csv], {type:'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=filename;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 100);
+  }
+  showToast('Payroll export triggered','info');
 }
 
 // =========================================================
@@ -2644,7 +2894,7 @@ function renderMonitor() {
       <div class="login-log-icon">${s.role==='owner'?'👑':s.role==='manager'?'🧑‍💼':'👤'}</div>
       <div class="login-log-info">
         <div class="login-log-name">${s.name} <span class="badge badge-${s.role==='owner'?'owner':s.role==='manager'?'admin':'approved'}" style="font-size:.6rem">${s.role}</span></div>
-        <div class="login-log-meta">${s.email} · Since ${new Date(s.loginAt).toLocaleTimeString()}</div>
+        <div class="login-log-meta">${s.company || 'Unknown'} · ${s.email} · Since ${new Date(s.loginAt).toLocaleTimeString()}</div>
       </div>
     </div>`).join(''):'<div style="color:var(--text2);font-size:.8rem;padding:16px 0;text-align:center">No users online right now</div>';
 
@@ -2655,21 +2905,23 @@ function renderMonitor() {
       <div class="login-log-icon" style="font-size:.85rem">${l.type==='login'?'🔑':'🚪'}</div>
       <div class="login-log-info">
         <div class="login-log-name">${l.name} <span style="font-size:.65rem;color:${l.type==='login'?'var(--accent2)':'var(--muted)'}">${l.type==='login'?'signed in':'signed out'}</span></div>
-        <div class="login-log-meta">${l.email} · ${new Date(l.time).toLocaleString()}</div>
+        <div class="login-log-meta">${l.company || 'Unknown'} · ${l.email} · ${new Date(l.time).toLocaleString()}</div>
       </div>
     </div>`).join('')||'<div style="color:var(--text2);font-size:.8rem;padding:16px 0;text-align:center">No activity yet</div>';
 
   // Users table
   el('userTable').innerHTML=users.map(u=>{
     const s=sessions[u.id];
+    const isPending = u.status === 'pending' && u.role !== 'owner';
     return `<tr>
       <td><div class="staff-mini"><div class="avatar" style="background:${colorFor(u.id)[0]};color:#fff">${initials(u.name)}</div><div><div class="sname">${u.name}</div><div class="srole">${u.email}</div></div></div></td>
       <td><span class="badge badge-${u.role==='owner'?'owner':u.role==='manager'?'admin':'approved'}">${u.role}</span></td>
       <td style="font-size:.72rem;color:var(--text2)">${s?new Date(s.loginAt).toLocaleString():'Never'}</td>
-      <td><span class="badge ${s?.online?'badge-present':'badge-pending'}">${s?.online?'🟢 Online':'⚫ Offline'}</span></td>
+      <td><span class="badge ${isPending?'badge-pending':(s?.online?'badge-present':'badge-pending')}">${isPending?'⏳ Pending Auth':(s?.online?'🟢 Online':'⚫ Offline')}</span></td>
       <td>
         ${u.id!==currentUser.id?`
           <div style="display:flex;gap:4px">
+            ${isPending ? `<button class="btn btn-success btn-sm" onclick="authorizeUser('${u.id}')">Authorize</button>` : ''}
             <button class="btn btn-danger btn-sm" onclick="confirmDeleteUser('${u.id}','${u.name}')">Remove</button>
             ${s?.online?`<button class="btn btn-warning btn-sm" onclick="forceLogout('${u.id}')">Force Out</button>`:''}
           </div>`:'<span style="font-size:.72rem;color:var(--muted)">You (owner)</span>'}
@@ -2699,6 +2951,152 @@ function renderMonitor() {
   // Monitor access requests
   renderMonitorRequests();
   updateMonitorReqBadge();
+  renderAppReports();
+  renderBiometricLogs();
+}
+
+function submitAppReport() {
+  const type = document.getElementById('reportType').value;
+  const subject = document.getElementById('reportSubject').value.trim();
+  const desc = document.getElementById('reportDesc').value.trim();
+  if(!subject || !desc) { showToast('Please fill in all fields','error'); return; }
+
+  const reports = DB.get('appReports', []);
+  reports.unshift({
+    id: genId(),
+    userId: currentUser.id,
+    userName: currentUser.name,
+    company: DB.get('settings', {}).companyName || 'Unknown',
+    type,
+    subject,
+    desc,
+    status: 'new',
+    sentAt: new Date().toISOString()
+  });
+  DB.set('appReports', reports);
+
+  document.getElementById('reportSubject').value = '';
+  document.getElementById('reportDesc').value = '';
+  showToast('Report sent to Sam! Thank you.', 'success');
+}
+
+function renderAppReports() {
+  const reports = DB.get('appReports', []);
+  const el = document.getElementById('samReportList');
+  if(!el) return;
+
+  if(!reports.length) {
+    el.innerHTML = '<div style="color:var(--text2);font-size:.8rem;padding:20px 0;text-align:center">No feedback reports received yet</div>';
+    return;
+  }
+
+  el.innerHTML = reports.map((r, i) => `
+    <div class="dash-card" style="margin-bottom:12px; border-left: 3px solid ${r.type==='bug'?'var(--danger)':r.type==='feature'?'var(--accent2)':'var(--accent)'}; background: rgba(255,255,255,0.02)">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div style="flex:1">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px">
+            <span class="badge badge-${r.type==='bug'?'rejected':r.type==='feature'?'present':'info'}" style="font-size:.6rem">${r.type.toUpperCase()}</span>
+            <span style="font-size:.85rem; font-weight:700">${r.subject}</span>
+          </div>
+          <div style="font-size:.73rem; color:var(--text2); margin-bottom:10px">
+            From <strong>${r.userName}</strong> (${r.company}) · ${new Date(r.sentAt).toLocaleString()}
+          </div>
+          <div style="font-size:.78rem; color:var(--text); line-height:1.5; background:rgba(0,0,0,0.2); padding:10px; border-radius:6px; white-space: pre-wrap">
+            ${r.desc}
+          </div>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="deleteAppReport('${r.id}')" style="padding:4px 8px; margin-left:12px">🗑</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function deleteAppReport(id) {
+  if(!confirm('Delete this report?')) return;
+  const reports = DB.get('appReports', []).filter(r => r.id !== id);
+  DB.set('appReports', reports);
+  renderAppReports();
+  showToast('Report deleted', 'info');
+}
+
+// =========================================================
+// BIOMETRIC SYNC
+// =========================================================
+function syncBiometric() {
+  const staff = DB.get('staff', []);
+  if(!staff.length) { showToast('No employees to sync', 'error'); return; }
+
+  showToast('Connecting to Biometric Device...', 'info');
+
+  setTimeout(() => {
+    const date = document.getElementById('attDate').value || todayStr();
+    const att = DB.get('attendance', {});
+    if(!att[date]) att[date] = {};
+
+    let syncedCount = 0;
+    staff.forEach(s => {
+      // Only sync if not already marked manually
+      if(!att[date][s.id] || !att[date][s.id].status) {
+        // Randomly simulate some biometric punches (80% chance of being present)
+        if(Math.random() > 0.2) {
+          const checkIn = "09:" + Math.floor(Math.random()*30).toString().padStart(2,'0');
+          const checkOut = "18:" + Math.floor(Math.random()*30).toString().padStart(2,'0');
+          att[date][s.id] = { status: 'present', checkIn, checkOut, note: 'Synced via Biometric' };
+          syncedCount++;
+        }
+      }
+    });
+
+    DB.set('attendance', att);
+
+    // Log the sync for Sam
+    const bioLogs = DB.get('biometricLogs', []);
+    bioLogs.unshift({
+      id: genId(),
+      company: DB.get('settings', {}).companyName || 'Unknown',
+      user: currentUser.name,
+      date: date,
+      count: syncedCount,
+      time: new Date().toISOString()
+    });
+    DB.set('biometricLogs', bioLogs.slice(0, 50));
+
+    renderAttendance();
+    renderDashboard();
+    showToast(`✓ Sync Complete: ${syncedCount} records updated`, 'success');
+  }, 1500);
+}
+
+function renderBiometricLogs() {
+  const logs = DB.get('biometricLogs', []);
+  const el = document.getElementById('biometricLogList');
+  if(!el) return;
+
+  if(!logs.length) {
+    el.innerHTML = '<div style="color:var(--text2);font-size:.8rem;padding:14px 0;text-align:center">No biometric sync events recorded</div>';
+    return;
+  }
+
+  el.innerHTML = logs.map(l => `
+    <div class="login-log-item">
+      <div class="login-log-icon" style="color:var(--accent2)">🧬</div>
+      <div class="login-log-info">
+        <div class="login-log-name">${l.company} <span style="font-size:.65rem;color:var(--muted)">Sync by ${l.user}</span></div>
+        <div class="login-log-meta">Date: ${l.date} · <strong>${l.count} employees synced</strong> · ${new Date(l.time).toLocaleTimeString()}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function authorizeUser(id) {
+  const users = DB.get('users', []);
+  const i = users.findIndex(u => u.id === id);
+  if(i >= 0) {
+    users[i].status = 'approved';
+    DB.set('users', users);
+    renderMonitor();
+    showToast(`Account authorized for ${users[i].name}`, 'success');
+  }
 }
 
 function confirmDeleteUser(id, name) {
@@ -2752,10 +3150,19 @@ function exportUsersCSV() {
     rows.push([u.name,u.email,u.role,s?new Date(s.loginAt).toLocaleString():'Never',s?.online?'Online':'Offline']);
   });
   const csv=rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download='hrms_users_'+new Date().toISOString().slice(0,10)+'.csv';
-  a.click();
+  const filename = 'hrms_users_'+new Date().toISOString().slice(0,10)+'.csv';
+
+  if (window.Android && window.Android.exportCSV) {
+    window.Android.exportCSV(filename, csv);
+  } else {
+    const blob = new Blob([csv], {type:'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=filename;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 100);
+  }
   showToast('Users exported','info');
 }
 
